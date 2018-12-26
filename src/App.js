@@ -2,7 +2,7 @@
  * @Author: Ali
  * @Date:   2018-12-26T12:52:10+01:00
  * @Last modified by:   Ali
- * @Last modified time: 2018-12-26T12:52:10+01:00
+ * @Last modified time: 2018-12-26T13:08:08+01:00
  */
 
 import React, { Component } from 'react'
@@ -18,4 +18,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default App
