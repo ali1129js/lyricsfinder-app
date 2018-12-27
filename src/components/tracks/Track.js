@@ -2,7 +2,7 @@
  * @Author: Ali
  * @Date:   2018-12-27T09:40:55+01:00
  * @Last modified by:   Ali
- * @Last modified time: 2018-12-27T10:13:16+01:00
+ * @Last modified time: 2018-12-27T10:15:45+01:00
  */
 import React from "react";
 import { Link } from "react-router-dom";
@@ -30,7 +30,7 @@ const Track = props => {
             to={`lyrics/track/${track.track_id}`}
             className="btn btn-dark btn-block"
           >
-            <i className="fas fa-chevron-right">View Lyrics</i>
+            <i className="fas fa-chevron-right"> View Lyrics</i>
           </Link>
         </div>
       </div>
