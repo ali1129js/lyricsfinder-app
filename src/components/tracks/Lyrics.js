@@ -2,7 +2,7 @@
  * @Author: Ali
  * @Date:   2018-12-27T10:19:23+01:00
  * @Last modified by:   Ali
- * @Last modified time: 2018-12-28T12:47:34+01:00
+ * @Last modified time: 2018-12-28T15:27:10+01:00
  */
 import React, { Component, Fragment } from "react";
 import axios from "axios";
@@ -63,7 +63,13 @@ class Lyrics extends Component {
             <li className="list-group-item">
               <strong> Album Name </strong>: {track.album_name}
             </li>
-
+            <li className="list-group-item">
+              <strong> Song Genre </strong>:{" "}
+              {
+                track.primary_genres.music_genre_list[0].music_genre
+                  .music_genre_name
+              }
+            </li>
             <li className="list-group-item">
               <strong> Explicit Words </strong>:{" "}
               {track.explicit === 0 ? "No" : "Yes"}
