@@ -2,16 +2,30 @@
  * @Author: Ali
  * @Date:   2018-12-26T14:51:02+01:00
  * @Last modified by:   Ali
- * @Last modified time: 2018-12-28T15:14:02+01:00
+ * @Last modified time: 2018-12-28T17:26:04+01:00
  */
 import React, { Component } from "react";
 import axios from "axios";
+
 const Context = React.createContext();
+const reducer = (state, action) => {
+  switch (action.type) {
+    case "SEARCH_TRACKS":
+      return {
+        ...state,
+        track_list: action.payload,
+        heading: "Search Results"
+      };
+    default:
+      return state;
+  }
+};
 
 export class Provider extends Component {
   state = {
     track_list: [],
-    heading: "Top 10 Tracks in Germany"
+    heading: "Top 10 Tracks in Germany",
+    dispatch: action => this.setState(state => reducer(state, action))
   };
   componentDidMount() {
     axios
@@ -21,7 +35,6 @@ export class Provider extends Component {
         }`
       )
       .then(res => {
-        console.log(res.data);
         this.setState({
           track_list: res.data.message.body.track_list
         });
