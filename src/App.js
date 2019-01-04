@@ -2,11 +2,11 @@
  * @Author: Ali
  * @Date:   2018-12-26T12:52:10+01:00
  * @Last modified by:   Ali
- * @Last modified time: 2018-12-27T16:43:12+01:00
+ * @Last modified time: 2019-01-04T22:34:57+01:00
  */
 
 import React, { Component } from "react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { HashRouter as Router, Route, Switch } from "react-router-dom";
 import Navbar from "./components/layout/Navbar";
 import Index from "./components/layout/Index";
 import Lyrics from "./components/tracks/Lyrics";
