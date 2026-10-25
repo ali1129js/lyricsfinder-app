@@ -21,16 +21,14 @@ class Search extends Component {
     e.preventDefault();
     axios
       .get(
-        `https://cors-anywhere.herokuapp.com/https://api.musixmatch.com/ws/1.1/track.search?q_track=${
+        `https://lrclib.net/api/search?q=${encodeURIComponent(
           this.state.trackTitle
-        }&page_size=10&page=1&s_track_rating=desc&apikey=${
-          process.env.REACT_APP_API_KEY
-        }`
+        )}`
       )
       .then(res => {
         dispatch({
           type: "SEARCH_TRACKS",
-          payload: res.data.message.body.track_list
+          payload: res.data.slice(0, 10)
         });
         this.setState({ trackTitle: "" });
       })

@@ -15,22 +15,16 @@ class Lyrics extends Component {
   };
   componentDidMount() {
     axios
-      .get(
-        `https://cors-anywhere.herokuapp.com/https://api.musixmatch.com/ws/1.1/track.lyrics.get?track_id=${
-          this.props.match.params.id
-        }&apikey=${process.env.REACT_APP_API_KEY}`
-      )
+      .get(`https://lrclib.net/api/get/${this.props.match.params.id}`)
       .then(res => {
-        this.setState({ lyrics: res.data.message.body.lyrics });
-        return axios
-          .get(
-            `https://cors-anywhere.herokuapp.com/https://api.musixmatch.com/ws/1.1/track.get?track_id=${
-              this.props.match.params.id
-            }&apikey=${process.env.REACT_APP_API_KEY}`
-          )
-          .then(res => {
-            this.setState({ track: res.data.message.body.track });
-          });
+        this.setState({
+          track: res.data,
+          lyrics: {
+            lyrics_body: res.data.instrumental
+              ? "(Instrumental)"
+              : res.data.plainLyrics || "No lyrics found."
+          }
+        });
       })
       .catch(error => console.log(error));
   }
@@ -52,27 +46,21 @@ class Lyrics extends Component {
           </Link>
           <div className="card">
             <h5 className="card-header">
-              {track.track_name} by{" "}
-              <span className="text-secondary"> {track.artist_name}</span>
+              {track.trackName} by{" "}
+              <span className="text-secondary"> {track.artistName}</span>
             </h5>
             <div className="card-body">
-              <p className="card-text"> {lyrics.lyrics_body}</p>
+              <p className="card-text" style={{ whiteSpace: "pre-line" }}>
+                {lyrics.lyrics_body}
+              </p>
             </div>
           </div>
           <ul className="list-group mt-3">
             <li className="list-group-item">
-              <strong> Album Name </strong>: {track.album_name}
+              <strong> Album Name </strong>: {track.albumName}
             </li>
             <li className="list-group-item">
-              <strong> Song Genre </strong>:{" "}
-              {
-                track.primary_genres.music_genre_list[0].music_genre
-                  .music_genre_name
-              }
-            </li>
-            <li className="list-group-item">
-              <strong> Explicit Words </strong>:{" "}
-              {track.explicit === 0 ? "No" : "Yes"}
+              <strong> Duration </strong>: {Math.round(track.duration)}s
             </li>
           </ul>
         </Fragment>
