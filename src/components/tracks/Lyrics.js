@@ -11,7 +11,26 @@ import Spinner from "../layout/Spinner";
 class Lyrics extends Component {
   state = {
     track: {},
-    lyrics: {}
+    lyrics: {},
+    copied: false
+  };
+  copyLyrics = () => {
+    const text = this.state.lyrics.lyrics_body || "";
+    const done = () => {
+      this.setState({ copied: true });
+      setTimeout(() => this.setState({ copied: false }), 2000);
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(done).catch(() => {});
+    } else {
+      const ta = document.createElement("textarea");
+      ta.value = text;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand("copy");
+      document.body.removeChild(ta);
+      done();
+    }
   };
   componentDidMount() {
     axios
@@ -30,7 +49,6 @@ class Lyrics extends Component {
   }
   render() {
     const { track, lyrics } = this.state;
-    console.log(track);
     if (
       track === undefined ||
       lyrics === undefined ||
@@ -44,6 +62,14 @@ class Lyrics extends Component {
           <Link to="/" className="btn btn-dark btn-sm mb-4">
             Go Back
           </Link>
+          <button
+            type="button"
+            className="btn btn-primary btn-sm mb-4 ml-2"
+            onClick={this.copyLyrics}
+          >
+            <i className="fas fa-copy" />{" "}
+            {this.state.copied ? "Copied!" : "Copy lyrics"}
+          </button>
           <div className="card">
             <h5 className="card-header">
               {track.trackName} by{" "}
