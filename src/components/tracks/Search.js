@@ -19,6 +19,8 @@ class Search extends Component {
   };
   findTrack = (dispatch, e) => {
     e.preventDefault();
+    const query = this.state.trackTitle;
+    dispatch({ type: "SEARCH_START" });
     axios
       .get(
         `https://lrclib.net/api/search?q=${encodeURIComponent(
@@ -28,11 +30,15 @@ class Search extends Component {
       .then(res => {
         dispatch({
           type: "SEARCH_TRACKS",
-          payload: res.data.slice(0, 10)
+          payload: res.data.slice(0, 10),
+          query
         });
         this.setState({ trackTitle: "" });
       })
-      .catch(error => console.log(error));
+      .catch(error => {
+        console.log(error);
+        dispatch({ type: "SEARCH_ERROR" });
+      });
   };
   render() {
     return (

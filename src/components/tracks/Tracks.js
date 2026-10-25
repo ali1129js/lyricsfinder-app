@@ -13,9 +13,17 @@ class Tracks extends Component {
     return (
       <Consumer>
         {value => {
-          const { track_list, heading } = value;
-          if (track_list === undefined || track_list.length === 0) {
+          const { track_list, heading, loading, error, query } = value;
+          if (loading) {
             return <Spinner />;
+          } else if (error) {
+            return <div className="alert alert-danger text-center">{error}</div>;
+          } else if (track_list === undefined || track_list.length === 0) {
+            return (
+              <div className="alert alert-info text-center">
+                No results found for "{query}". Try another song or artist.
+              </div>
+            );
           } else {
             return (
               <React.Fragment>

@@ -14,7 +14,19 @@ const reducer = (state, action) => {
       return {
         ...state,
         track_list: action.payload,
-        heading: "Search Results"
+        heading: "Search Results",
+        query: action.query,
+        error: null,
+        loading: false
+      };
+    case "SEARCH_START":
+      return { ...state, loading: true, error: null };
+    case "SEARCH_ERROR":
+      return {
+        ...state,
+        track_list: [],
+        loading: false,
+        error: "Something went wrong while fetching tracks. Please try again later."
       };
     default:
       return state;
@@ -25,6 +37,9 @@ export class Provider extends Component {
   state = {
     track_list: [],
     heading: "Featured Tracks",
+    query: "",
+    loading: true,
+    error: null,
     dispatch: action => this.setState(state => reducer(state, action))
   };
   componentDidMount() {
@@ -34,10 +49,14 @@ export class Provider extends Component {
       )
       .then(res => {
         this.setState({
-          track_list: res.data.slice(0, 10)
+          track_list: res.data.slice(0, 10),
+          loading: false
         });
       })
-      .catch(error => console.log(error));
+      .catch(error => {
+        console.log(error);
+        this.state.dispatch({ type: "SEARCH_ERROR" });
+      });
   }
   render() {
     return (
