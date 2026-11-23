@@ -43,24 +43,24 @@ function TrackLyrics({
   const view = lyricsView(track);
   const meta = [track.albumName, formatDuration(track.duration)].filter(Boolean).join(" · ");
   return (
-    <section className="card lyrics-card">
-      <header className="lyrics-head">
-        <div>
-          <h2 className="lyrics-title" tabIndex={-1} ref={headingRef}>
-            {track.trackName}
-          </h2>
-          <p className="lyrics-artist">{track.artistName}</p>
-          {meta && <p className="lyrics-meta">{meta}</p>}
-        </div>
+    <div className="lyrics-layout">
+      <section className="card track-card sheen" aria-labelledby="track-title">
+        <h2 id="track-title" className="lyrics-title" tabIndex={-1} ref={headingRef}>
+          {track.trackName}
+        </h2>
+        <p className="lyrics-artist">{track.artistName}</p>
+        {meta && <p className="lyrics-meta">{meta}</p>}
         {view.kind === "plain" && <CopyButton text={view.text} />}
-      </header>
-      {view.kind === "plain" && <pre className="lyrics-text">{view.text}</pre>}
-      {view.kind === "instrumental" && (
-        <p className="notice notice-info">This track is instrumental, so there are no lyrics.</p>
-      )}
-      {view.kind === "empty" && (
-        <p className="notice notice-info">lrclib.net has this track but no lyrics for it yet.</p>
-      )}
-    </section>
+      </section>
+      <section className="card lyrics-card" aria-label="Lyrics">
+        {view.kind === "plain" && <pre className="lyrics-text">{view.text}</pre>}
+        {view.kind === "instrumental" && (
+          <p className="notice notice-info">This track is instrumental, so there are no lyrics.</p>
+        )}
+        {view.kind === "empty" && (
+          <p className="notice notice-info">lrclib.net has this track but no lyrics for it yet.</p>
+        )}
+      </section>
+    </div>
   );
 }

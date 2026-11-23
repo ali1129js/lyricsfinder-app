@@ -9,6 +9,21 @@
     />
     <meta name="color-scheme" content="light dark" />
     <title>Lyrics Finder</title>
+    <script>
+      (function () {
+        var d = document.documentElement;
+        try {
+          var mode = JSON.parse(localStorage.getItem("lyricsfinder.v2.mode") || "null");
+          if (mode !== "light" && mode !== "dark")
+            mode = matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+          d.dataset.mode = mode;
+          d.style.colorScheme = mode;
+        } catch (e) {
+          d.dataset.mode = "dark";
+        }
+        d.dataset.motion = "off";
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>
