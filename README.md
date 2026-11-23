@@ -27,6 +27,10 @@ npm run typecheck
 npm run build
 ```
 
+## Deploy
+
+GitHub Pages serves the `gh-pages` branch. `npm run deploy` runs typecheck, tests and the build, then publishes `dist/` to `gh-pages` with the [gh-pages](https://www.npmjs.com/package/gh-pages) package (a normal commit on that branch, not a force-push). CI runs the same checks on every push to `rebuild/ts-2026`.
+
 ## History
 
 This is a 2026 rebuild. The original 2018/2019 Create React App (class components, Bootstrap, Context API) is kept on the `master` branch and tagged `legacy-cra-2019`. The CRA build that GitHub Pages served before the rebuild is tagged `legacy-cra-pages-2026-10`.
