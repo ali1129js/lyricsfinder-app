@@ -6,7 +6,7 @@ import type { Track } from "../api/lrclib";
 
 const SYNCED = "[00:01.00]Line one\n[00:03.00]Line two\n[00:05.00]Line three";
 
-async function openTrack(t: Track) {
+async function showTrack(t: Track) {
   window.location.hash = `#/track/${t.id}`;
   render(<App fetchImpl={fakeFetch(() => jsonResponse(t))} />);
   await act(async () => {
@@ -23,7 +23,7 @@ afterEach(() => vi.useRealTimers());
 
 describe("synced lyrics", () => {
   it("highlights the current line while the clock runs and pauses", async () => {
-    await openTrack(track({ syncedLyrics: SYNCED, duration: 10 }));
+    await showTrack(track({ syncedLyrics: SYNCED, duration: 10 }));
     expect(screen.getByRole("list", { name: "Timed lyrics" })).toBeInTheDocument();
     expect(activeText()).toBeNull();
 
@@ -46,19 +46,19 @@ describe("synced lyrics", () => {
   });
 
   it("jumps with the position slider", async () => {
-    await openTrack(track({ syncedLyrics: SYNCED, duration: 10 }));
+    await showTrack(track({ syncedLyrics: SYNCED, duration: 10 }));
     fireEvent.change(screen.getByLabelText("Position"), { target: { value: "5.5" } });
     expect(activeText()).toBe("Line three");
   });
 
   it("shows plain lyrics without a player when there are no timed lines", async () => {
-    await openTrack(track());
+    await showTrack(track());
     expect(screen.getByText(/First line/)).toBeInTheDocument();
     expect(screen.queryByRole("button", { name: "Play along" })).not.toBeInTheDocument();
   });
 
   it("shows the instrumental message without a player", async () => {
-    await openTrack(track({ instrumental: true, plainLyrics: null, syncedLyrics: "[00:01.00]x" }));
+    await showTrack(track({ instrumental: true, plainLyrics: null, syncedLyrics: "[00:01.00]x" }));
     expect(screen.getByText(/instrumental/)).toBeInTheDocument();
     expect(screen.queryByRole("button", { name: "Play along" })).not.toBeInTheDocument();
   });
