@@ -623,3 +623,141 @@ html[data-motion="on"] .sheen:nth-child(2n)::after {
     max-width: none;
   }
 }
+
+/* ===== Recent searches (LYR-05) ===== */
+.recent {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 10px;
+  margin-top: 14px;
+}
+.recent-title {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 650;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.recent-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  min-width: 0;
+}
+.chip {
+  display: inline-flex;
+  align-items: stretch;
+  max-width: 100%;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--grad-gloss), var(--surface2);
+  box-shadow: var(--fx-raised);
+  overflow: hidden;
+}
+.chip button {
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  color: var(--text);
+  font-size: 13px;
+}
+.chip-main {
+  padding: 4px 4px 4px 12px;
+  max-width: 220px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.chip-x {
+  padding: 0 10px 0 6px;
+  color: var(--muted) !important;
+  font-size: 16px !important;
+  line-height: 1;
+}
+.chip-x:hover,
+.chip-main:hover {
+  color: var(--accentText) !important;
+}
+
+/* ===== Density switch and compact list ===== */
+.results-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 12px;
+  margin-bottom: 12px;
+}
+.results-head .section-title {
+  margin: 0;
+}
+.seg {
+  display: inline-flex;
+  padding: 3px;
+  gap: 3px;
+  border-radius: 10px;
+  background: var(--surface2);
+  box-shadow: var(--fx-well);
+}
+.seg button {
+  border: 0;
+  background: transparent;
+  padding: 5px 12px;
+  border-radius: 7px;
+  cursor: pointer;
+  color: var(--muted);
+  font-weight: 600;
+  font-size: 13px;
+}
+.seg button[aria-pressed="true"] {
+  background: var(--grad-gloss), var(--grad-sec);
+  color: var(--onSec);
+  box-shadow: var(--fx-raised);
+}
+.seg button:hover:not([aria-pressed="true"]) {
+  color: var(--text);
+}
+.result-list.compact {
+  gap: 4px;
+}
+.result-list.compact .result {
+  padding: 6px 12px;
+  border-radius: 8px;
+}
+.result-list.compact .result-main {
+  flex-direction: row;
+  align-items: baseline;
+  gap: 10px;
+  overflow: hidden;
+}
+.result-list.compact .result-title,
+.result-list.compact .result-artist {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  overflow-wrap: normal;
+}
+.result-list.compact .result-artist {
+  flex-shrink: 1;
+}
+.result-list.compact .result-album {
+  display: none;
+}
+@media (max-width: 420px) {
+  .result-list.compact .result {
+    flex-direction: row;
+    align-items: center;
+  }
+  .result-list.compact .result-main {
+    flex-direction: column;
+    gap: 0;
+  }
+  .result-list.compact .result-meta {
+    flex: none;
+  }
+}

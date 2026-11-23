@@ -11,6 +11,7 @@ Search song lyrics from [lrclib.net](https://lrclib.net). No account and no API 
 ## What it does
 
 - Search by title, artist or a remembered line. Typing pauses for 350 ms before searching, and a new search aborts the request still in flight.
+- Recent searches (last 6, saved in the browser, checked with Zod) as chips you can reach with Tab, remove one by one or clear. A Compact switch shows one line per result.
 - Open a result to read the lyrics, copy them in one click, or deep-link to `#/track/<id>`.
 - Clear messages for "nothing matched", network trouble, server errors, instrumental tracks and tracks without lyrics.
 - Chrome style (mirror metal) in light and dark. The wave button next to the switch turns on a slow sheen. It is off by default, and a system "reduce motion" setting always keeps it off.

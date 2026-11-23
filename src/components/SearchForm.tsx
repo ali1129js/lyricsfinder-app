@@ -1,41 +1,21 @@
-import { useEffect, useId, useRef, useState } from "react";
+import { useId } from "react";
 
 interface Props {
-  initialQuery?: string;
-  /** Called after the user pauses typing, and right away on submit. */
-  onSearch: (query: string) => void;
-  /** Called when the box is cleared. */
-  onClear: () => void;
-  debounceMs?: number;
+  value: string;
+  /** Every keystroke. The parent decides when to search. */
+  onType: (value: string) => void;
+  onSubmit: () => void;
 }
 
-export const MIN_AUTO_CHARS = 2;
-
-export function SearchForm({ initialQuery = "", onSearch, onClear, debounceMs = 350 }: Props) {
-  const [value, setValue] = useState(initialQuery);
+export function SearchForm({ value, onType, onSubmit }: Props) {
   const inputId = useId();
-  const typed = useRef(false);
-
-  useEffect(() => {
-    if (!typed.current) return;
-    const q = value.trim();
-    if (q.length === 0) {
-      onClear();
-      return;
-    }
-    if (q.length < MIN_AUTO_CHARS) return;
-    const t = window.setTimeout(() => onSearch(q), debounceMs);
-    return () => window.clearTimeout(t);
-  }, [value, debounceMs, onSearch, onClear]);
-
   return (
     <form
       role="search"
       className="search"
       onSubmit={(e) => {
         e.preventDefault();
-        typed.current = false;
-        onSearch(value);
+        onSubmit();
       }}
     >
       <label htmlFor={inputId} className="search-label">
@@ -50,10 +30,7 @@ export function SearchForm({ initialQuery = "", onSearch, onClear, debounceMs = 
           spellCheck={false}
           placeholder="e.g. Bohemian Rhapsody"
           value={value}
-          onChange={(e) => {
-            typed.current = true;
-            setValue(e.target.value);
-          }}
+          onChange={(e) => onType(e.target.value)}
         />
         <button type="submit" className="btn btn-primary">
           Search

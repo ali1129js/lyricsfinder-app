@@ -1,7 +1,12 @@
-import { useMemo } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useTrackSearch } from "./hooks/useTrackSearch";
 import { useHashRoute } from "./hooks/useHashRoute";
 import { usePreferences } from "./hooks/usePreferences";
+import { useDebouncedSearch } from "./hooks/useDebouncedSearch";
+import { useRecentSearches } from "./hooks/useRecentSearches";
+import { KEYS, densitySchema, readStored, writeStored } from "./lib/storage";
+import type { Density } from "./lib/storage";
+import { RecentSearches } from "./components/RecentSearches";
 import type { FetchLike } from "./api/lrclib";
 import { SearchForm } from "./components/SearchForm";
 import { ResultsList } from "./components/ResultsList";
@@ -33,7 +38,20 @@ export function App({ fetchImpl }: Props) {
   const { state, search, reset } = useTrackSearch(fetchImpl);
   const route = useHashRoute();
   const prefs = usePreferences();
-  const lastQuery = state.status === "idle" ? "" : state.query;
+  const box = useDebouncedSearch(search, reset);
+  const history = useRecentSearches();
+  const [density, setDensityState] = useState<Density>(() =>
+    readStored(KEYS.density, densitySchema, "comfortable"),
+  );
+  const setDensity = useCallback((d: Density) => {
+    writeStored(KEYS.density, d);
+    setDensityState(d);
+  }, []);
+  const doneQuery = state.status === "done" ? state.query : null;
+  const addRecent = history.add;
+  useEffect(() => {
+    if (doneQuery) addRecent(doneQuery);
+  }, [doneQuery, addRecent]);
   const known = useMemo(
     () =>
       route.page === "track" && state.status === "done"
@@ -71,12 +89,29 @@ export function App({ fetchImpl }: Props) {
             <section className="card hero sheen">
               <h1 className="page-title">Find the words to any song</h1>
               <p className="lede">Search by title, artist or a line you remember.</p>
-              <SearchForm initialQuery={lastQuery} onSearch={search} onClear={reset} />
+              <SearchForm
+                value={box.input}
+                onType={box.onType}
+                onSubmit={() => box.runNow(box.input)}
+              />
+              <RecentSearches
+                items={history.recent}
+                onPick={box.runNow}
+                onRemove={history.remove}
+                onClear={history.clear}
+              />
             </section>
             <div aria-live="polite" className="results-region">
               {state.status === "loading" && <Loading label="Searching lrclib.net…" />}
               {state.status === "error" && <ErrorMessage error={state.error} />}
-              {state.status === "done" && <ResultsList tracks={state.tracks} query={state.query} />}
+              {state.status === "done" && (
+                <ResultsList
+                  tracks={state.tracks}
+                  query={state.query}
+                  density={density}
+                  onDensity={setDensity}
+                />
+              )}
             </div>
           </>
         )}

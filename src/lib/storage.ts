@@ -3,10 +3,13 @@ import { z } from "zod";
 export const KEYS = {
   mode: "lyricsfinder.v2.mode",
   motion: "lyricsfinder.v2.motion",
+  density: "lyricsfinder.v2.density",
 } as const;
 
 export const modeSchema = z.enum(["light", "dark"]);
 export const motionSchema = z.enum(["static", "animated"]);
+export const densitySchema = z.enum(["comfortable", "compact"]);
+export type Density = z.infer<typeof densitySchema>;
 export type Mode = z.infer<typeof modeSchema>;
 export type Motion = z.infer<typeof motionSchema>;
 
