@@ -1,0 +1,38 @@
+# Public deny-list for the leak guard (case-insensitive substring match).
+# Terms are stored hashed so the list itself reveals nothing:
+#   h:<length>:<first 16 hex of sha256(lowercase term)>
+# Lines starting with "re:" are regular expressions. "#" = comment.
+# Plaintext lists stay private and can be added via env DENY_EXTRA=<file>.
+h:5:107eaa270bb4d714
+h:5:4af065b70311200e
+h:4:abeb535dbc239c6f
+h:4:a38a61d84e228d5f
+h:11:23e907f377683313
+hw:3:b86c7d6f25284c15
+h:10:7a0d91593df9293a
+h:5:5a702f7c6c5b9862
+hw:3:a0566e5c4d077424
+h:12:3dcb4884fa6e50c8
+h:5:74038ec4a7e8620e
+h:5:1ca58d36aff5ff75
+h:5:94d8fe2cffbe16b2
+h:12:4d37107f8cd47a56
+h:10:85b0c4208e2528ea
+re:\b\d{8,}\b
+h:5:7f3a98bcabcb3fe7
+h:4:7ace07d707185ae6
+h:6:d5e7d945ccf8829e
+h:7:d9b404be1858112f
+h:5:ab3a903f4bc80a35
+h:7:cc69edb745f62952
+h:10:cc28d3a8a658ef35
+h:8:1f0281ad63e3e26a
+h:6:a0e7bf0a407e0ea0
+h:7:9d4c10aa5fd976ca
+h:8:7b83b7e464838fae
+h:15:51a4a6e9d1d7742e
+h:5:e321fb27d066f1f3
+h:5:77ab7ca06297843d
+h:5:f2e6f10732d91b54
+h:5:7b3456545bb9c111
+h:8:06e55b633481f7bb
