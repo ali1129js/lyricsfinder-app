@@ -99,3 +99,12 @@ export function applyMode(mode: Mode): void {
 export function applyMotion(motion: Motion): void {
   document.documentElement.dataset.motion = motion === "animated" ? "on" : "off";
 }
+
+/** Same maths as CSS color-mix(in srgb, a p%, b) for opaque colours. */
+export function mixHex(a: string, b: string, pctA: number): string {
+  const n = (h: string) => parseInt(h.slice(1), 16);
+  const [x, y] = [n(a), n(b)];
+  const ch = (shift: number) =>
+    Math.round((((x >> shift) & 255) * pctA + ((y >> shift) & 255) * (100 - pctA)) / 100);
+  return `#${[16, 8, 0].map((s) => ch(s).toString(16).padStart(2, "0")).join("")}`.toUpperCase();
+}

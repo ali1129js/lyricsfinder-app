@@ -4,6 +4,7 @@ import type { FetchLike, Track } from "../api/lrclib";
 import { useTrack } from "../hooks/useTrack";
 import { lyricsView } from "../lib/lyrics";
 import { CopyButton } from "./CopyButton";
+import { SyncedLyrics } from "./SyncedLyrics";
 import { ErrorMessage, Loading } from "./StatusMessage";
 
 interface Props {
@@ -50,10 +51,11 @@ function TrackLyrics({
         </h2>
         <p className="lyrics-artist">{track.artistName}</p>
         {meta && <p className="lyrics-meta">{meta}</p>}
-        {view.kind === "plain" && <CopyButton text={view.text} />}
+        {(view.kind === "plain" || view.kind === "synced") && <CopyButton text={view.text} />}
       </section>
       <section className="card lyrics-card" aria-label="Lyrics">
         {view.kind === "plain" && <pre className="lyrics-text">{view.text}</pre>}
+        {view.kind === "synced" && <SyncedLyrics lines={view.lines} duration={track.duration} />}
         {view.kind === "instrumental" && (
           <p className="notice notice-info">This track is instrumental, so there are no lyrics.</p>
         )}

@@ -15,10 +15,10 @@ describe("lyricsView", () => {
   it("marks tracks with no lyrics as empty", () => {
     expect(lyricsView(track({ plainLyrics: "  ", syncedLyrics: null }))).toEqual({ kind: "empty" });
   });
-  it("falls back to synced lyrics without stamps", () => {
+  it("treats synced-only lyrics as synced and copies them without stamps", () => {
     expect(
       lyricsView(track({ plainLyrics: null, syncedLyrics: "[00:01.20] One\n[00:03.00] Two" })),
-    ).toEqual({ kind: "plain", text: "One\nTwo" });
+    ).toMatchObject({ kind: "synced", text: "One\nTwo" });
   });
   it("strips repeated stamps", () => {
     expect(stripTimestamps("[00:01.00][01:10.50] Chorus")).toBe("Chorus");

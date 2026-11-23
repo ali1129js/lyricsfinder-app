@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
-import { CHROME, TEXT_PAIRS, contrast } from "./chrome";
+import { CHROME, TEXT_PAIRS, contrast, mixHex } from "./chrome";
 import type { TokenName } from "./chrome";
 
 const css = readFileSync(resolve(process.cwd(), "src/styles/chrome.css"), "utf8");
@@ -28,6 +28,18 @@ describe("chrome tokens", () => {
         expect(block).toContain(`--${name.toLowerCase()}: ${value.toLowerCase()};`);
     });
   }
+
+  for (const mode of ["light", "dark"] as const) {
+    it(`${mode}: the highlighted synced line stays readable`, () => {
+      const t = CHROME[mode];
+      const bg = mixHex(t.accent, t.surface2, 16);
+      expect(contrast(t.text, bg)).toBeGreaterThanOrEqual(4.5);
+    });
+  }
+
+  it("mixes like CSS color-mix", () => {
+    expect(mixHex("#000000", "#FFFFFF", 50)).toBe("#808080");
+  });
 
   it("computes known ratios", () => {
     expect(contrast("#000000", "#FFFFFF")).toBeCloseTo(21, 0);

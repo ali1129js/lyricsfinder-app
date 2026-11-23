@@ -6,13 +6,16 @@ Search song lyrics from [lrclib.net](https://lrclib.net). No account and no API 
 
 ![Search results in chrome dark](docs/search-dark.png)
 
-![Lyrics page in chrome light](docs/lyrics-light.png)
+![Lyrics page with a synced line highlighted, chrome light](docs/lyrics-light.png)
+
+More: [search, light](docs/search-light.png) · [lyrics, dark](docs/lyrics-dark.png)
 
 ## What it does
 
 - Search by title, artist or a remembered line. Typing pauses for 350 ms before searching, and a new search aborts the request still in flight.
 - Recent searches (last 6, saved in the browser, checked with Zod) as chips you can reach with Tab, remove one by one or clear. A Compact switch shows one line per result.
 - Open a result to read the lyrics, copy them in one click, or deep-link to `#/track/<id>`.
+- When lrclib has timed (LRC) lyrics, a Play along clock highlights the current line. There is no audio; you start, pause or drag the clock and follow along. Plain-only tracks look as before.
 - Clear messages for "nothing matched", network trouble, server errors, instrumental tracks and tracks without lyrics.
 - Chrome style (mirror metal) in light and dark. The wave button next to the switch turns on a slow sheen. It is off by default, and a system "reduce motion" setting always keeps it off.
 

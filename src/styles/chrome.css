@@ -761,3 +761,70 @@ html[data-motion="on"] .sheen:nth-child(2n)::after {
     flex: none;
   }
 }
+
+/* ===== Synced lyrics (LYR-06) ===== */
+.player {
+  position: sticky;
+  top: 12px;
+  z-index: 3;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 14px;
+  padding: 12px 14px;
+  margin-bottom: 18px;
+}
+.play-btn {
+  min-width: 116px;
+}
+.seek {
+  flex: 1;
+  min-width: 140px;
+  accent-color: var(--accent);
+  height: 24px;
+  cursor: pointer;
+}
+.clock {
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+.player-note {
+  flex-basis: 100%;
+  margin: 0;
+  font-size: 12px;
+  color: var(--muted);
+}
+.synced-lines {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-size: 17px;
+  line-height: 1.55;
+}
+.line {
+  padding: 4px 12px;
+  margin: 1px 0;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  overflow-wrap: anywhere;
+  transition:
+    background-color 0.25s,
+    color 0.25s;
+}
+.line.past {
+  color: var(--muted);
+}
+.line.active {
+  color: var(--text);
+  font-weight: 700;
+  background: var(--grad-gloss), color-mix(in srgb, var(--accent) 16%, var(--surface2));
+  border-color: color-mix(in srgb, var(--accent) 45%, var(--border));
+  box-shadow: var(--fx-raised);
+}
+@media (prefers-reduced-motion: reduce) {
+  .line {
+    transition: none;
+  }
+}

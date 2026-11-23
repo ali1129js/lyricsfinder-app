@@ -61,6 +61,14 @@ Colours live twice: as CSS variables in `src/styles/chrome.css` and as data in `
 
 The 3D look is layered `box-shadow`: an inset white line on top (light catching the bevel), an inset dark line at the bottom, then two soft drop shadows. The mirror metal is one gradient with a hard stop at 49 to 51 percent, which reads as a horizon reflection.
 
-## 7. Motion is opt-in
+## 7. Synced lyrics without audio
+
+lrclib's `syncedLyrics` field is LRC text: `[01:02.25] a line`. `parseLrc` turns it into `{ time, text }` rows. A line can have several stamps (a repeated chorus), so it is expanded and then sorted. `[offset:+250]` shifts every line by milliseconds.
+
+Finding the current line is a binary search for "the last line whose time is not after now", which is O(log n) per tick instead of scanning the list.
+
+The clock does not count ticks. It stores when it started and adds `Date.now() - startedAt`, so a slow or skipped `setInterval` tick never makes it drift. Tests use Vitest fake timers to move time forward and check which line has `aria-current`.
+
+## 8. Motion is opt-in
 
 The sheen only runs when `<html data-motion="on">`. The default is off, and `prefers-reduced-motion: reduce` disables the toggle and keeps it off, in JS and again in CSS.
